@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<div style="display: flex">
+ <div id="categories">
+    <div th:include="template :: categories"></div>
+ </div>
+
+ <div id="container" class="container" style="background: lightgoldenrodyellow;">
+     <div th:replace="template :: header_menu"></div>
+     <div th:include="template :: ((${template} == books)  ? books : book)"></div>
+     <div th:if="${book} != null">
+         <div th:include="template :: comments"></div>
+     </div>
+ </div>
+</div>
+
+
+</body>
+</html>

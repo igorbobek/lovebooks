@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>Title</title>
+</head>
+<body style="width: 70%; margin: 0 auto">
+<div class="container">
+    <div class="row" style="display: flex">
+        <div class="col">
+            <h2>ADD BOOK</h2>
+            <form th:method="POST" th:action="@{/addBook}">
+                Name : <input type="text" name="name" class="form-control"/>
+                Publisher: <input type="text" name="publisher" class="form-control"/>
+                Year: <input type="text" name="year" class="form-control"/>
+                Pages: <input type="text" name="pages" class="form-control"/>
+                Language: <input type="text" name="language" class="form-control"/>
+                Url: <input type="text" name="url" class="form-control"/>
+                Img: <input type="text" name="img" class="form-control"/>
+                Description: <input type="text" name="description" class="form-control"/>
+                Category: <input type="text" name="category" class="form-control"/>
+                <input class="btn btn-primary" type="submit" value="Add"/>
+            </form>
+        </div>
+        <div class="col" style="margin-left: 10px">
+            <h2>DELETE BOOK</h2>
+            <form th:method="POST" th:action="@{/deleteBook}">
+                Name : <input type="text" name="name" class="form-control"/>
+                <input class="btn btn-primary" type="submit" value="Delete"/>
+            </form>
+        </div>
+        <div class="col" style="margin-left: 10px">
+            <h2>SET ROLE</h2>
+            <form th:method="POST" th:action="@{/setRole}">
+                Username : <input type="text" name="name" class="form-control"/>
+                New Role : <input type="text" name="newRole" class="form-control"/>
+                <input class="btn btn-primary" type="submit" value="Set Role"/>
+            </form>
+        </div>
+        <div class="col" style="margin-left: 10px">
+            <h2>DELETE ROLE</h2>
+            <form th:method="POST" th:action="@{/deleteRole}">
+                Username : <input type="text" name="name" class="form-control"/>
+                New Role : <input type="text" name="role" class="form-control"/>
+                <input class="btn btn-primary" type="submit" value="Delete Role"/>
+            </form>
+        </div>
+        <div class="col" style="margin-left: 10px">
+            <h2>GET BOOKS</h2>
+            <a href="/api/books/" class="btn btn-primary">JSON BOOKS</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

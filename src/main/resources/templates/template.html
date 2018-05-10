@@ -1,0 +1,130 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div th:fragment="books">
+    <table id="books" class="table table-striped">
+        <tr th:each="book : ${books}">
+            <td>
+                <div>
+                    <a th:href="${'/book/' + book.id}">
+                        <img th:src="${book.img}">
+                    </a>
+                </div>
+                 <div th:text="${'Название: '+book.name}"></div>
+                 <div th:text="${'Издательство: '+book.publisher}"></div>
+                 <div th:text="${'Год: '+book.year}"></div>
+                 <div th:text="${'Страниц: '+book.pages}"></div>
+                 <div th:text="${'Язык: '+book.language}"></div>
+                <div th:text="${'Описание'+book.description}">a</div>
+            </td>
+        </tr>
+    </table>
+    <div class="hrefs" th:if="${pages != null}">
+        <th th:each="n : ${#numbers.sequence(1,pages+1)}">
+            <a th:href="${'/books/'+n}" th:text="${n}">
+            </a>
+        </th>
+    </div>
+</div>
+
+
+<div th:fragment="book">
+    <table class="table table-striped" id="book">
+        <tr>
+            <td style="display: flex;margin: 32px;">
+                <div>
+                    <a th:href="${'/book/' + book.id}">
+                        <img th:src="${book.img}">
+                    </a>
+                </div>
+                <div th:utext="${'Название: '+'<br />'+book.name}"></div>
+                <div th:utext="${'Издательство: '+'<br />'+book.publisher}"></div>
+                <div th:utext="${'Год: '+'<br />'+book.year}"></div>
+                <div th:utext="${'Страниц: '+'<br />'+book.pages}"></div>
+                <div th:utext="${'Язык: ' +'<br />'+book.language}"></div>
+                <div th:utext="${'Описание: '+'<br />'+book.description}">a</div>
+            </td>
+        </tr>
+    </table>
+    <form style="float: right;" sec:authorize="isAuthenticated()" th:action="@{/addGoodBook}" th:method="POST">
+        <input type = "hidden" name = "bookId" th:value="${book.id}"/>
+        <button class="btn btn-primary" type="submit">Добавить в избранное</button>
+    </form>
+    <div>
+        <object th:data="${book.url}" type="application/pdf" width="100%" height="800px">
+            alt : <a th:href="${book.url}">test.pdf</a>
+        </object>
+    </div>
+</div>
+
+
+<div th:fragment="categories" id="categories">
+    <h2 style="text-align: center">ЖАНРЫ</h2>
+    <table id="books" class="table table-striped" style="background-color: lightgoldenrodyellow">
+
+        <tr>
+            <th>
+                <a th:text="Домой" th:href="${'/'}"></a>
+            </th>
+        </tr>
+
+        <tr th:each="category : ${categories}">
+            <th>
+                <a th:text="${category.name}" th:href="${'/category/' + category.name}"></a>
+            </th>
+        </tr>
+    </table>
+</div>
+
+<div th:fragment="comments">
+    <h2 style="text-align: center">Комментарии</h2>
+    <div id="comments">
+            <table class="table table-striped">
+                <tr th:each="CommentUserBook : ${comments}">
+                    <td>
+                        <div th:text="${'Пользователь: '+CommentUserBook.user.name}"></div>
+                        <div th:text="${'Дата: '+CommentUserBook.comment.date}"></div>
+                        <div th:text="${'Коментарий: '+CommentUserBook.comment.content}"></div>
+                    </td>
+                </tr>
+            </table>
+    </div>
+    <form sec:authorize="isAuthenticated()" th:action="@{/addComment}" th:method="POST">
+        <input type = "hidden" name = "bookId" th:value="${book.id}"/>
+        <input type = "text" name = "comment" class="form-control"/>
+        <button class="btn btn-primary" type="submit">Отправить</button>
+    </form>
+</div>
+
+
+<div th:fragment="header_menu">
+    <div style="width: 100%; height: 57px; background-color: cornflowerblue">
+        <div sec:authorize="isAuthenticated()" class="remove-filter pull-right">
+            <div style="float: right;">
+            <button class="btn btn-danger" style="float: right;" type="submit" onclick="location.href = '/logout'">Log out</button><br>
+            <ul class="infoUser">
+                Привет: <li class="badge badge-pill badge-primary" th:text="${user.name}">t</li>
+            </ul>
+            <ol class="breadcrumb">
+                <li><a href="/mybooks">Избранное</a></li>
+            </ol>
+            </div>
+        </div>
+        <div sec:authorize="!isAuthenticated()" class="remove-filter pull-right">
+            <div style="float: right;">
+                <button class="btn btn-success" type="submit" onclick="location.href = '/login'">Log in</button><br>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
